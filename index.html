@@ -1,86 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Student Exam Results</title>
+  <title>Student Results</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    label { display: block; margin-top: 10px; }
-    select, input, button { margin-top: 5px; padding: 5px; }
-    table { border-collapse: collapse; margin-top: 20px; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f0f0f0; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #999;
+      border-collapse: collapse;
+      padding: 8px;
+    }
   </style>
 </head>
 <body>
 
-  <h2>Student Exam Results</h2>
+  <h2>Get Student Exam Results</h2>
 
-  <form id="examForm">
-    <label for="examCode">Enter Exam Code:</label>
-    <input type="text" id="examCode" required>
-
-    <label for="rollNo">Select Roll No:</label>
-    <select id="rollNo">
-      <option value="101">101</option>
-      <option value="102">102</option>
-      <option value="103">103</option>
+  <div class="form-section">
+    <label for="examCode">Select Exam Code:</label>
+    <select id="examCode">
+      <option value="EXAM101">EXAM101</option>
+      <option value="EXAM102">EXAM102</option>
+      <option value="EXAM103">EXAM103</option>
     </select>
+  </div>
 
+  <div class="form-section">
+    <label for="rollNo">Enter Roll Number:</label>
+    <input type="text" id="rollNo" placeholder="e.g. 12345">
+  </div>
+
+  <div class="form-section">
     <label for="examDate">Select Exam Date:</label>
     <select id="examDate">
       <option value="2025-06-01">June 1, 2025</option>
       <option value="2025-06-15">June 15, 2025</option>
       <option value="2025-07-01">July 1, 2025</option>
     </select>
+  </div>
 
-    <button type="submit">Get Results</button>
-  </form>
+  <button onclick="getResults()">Get Results</button>
 
-  <table id="resultsTable" style="display:none;">
-    <thead>
-      <tr>
-        <th>Subject</th>
-        <th>Marks</th>
-        <th>Grade</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <div id="results" style="margin-top: 30px;"></div>
 
   <script>
-    const dummyData = {
-      "101": {
-        "2025-06-01": [
-          { subject: "Math", marks: 85, grade: "A" },
-          { subject: "Science", marks: 78, grade: "B+" }
-        ],
-        "2025-07-01": [
-          { subject: "Math", marks: 90, grade: "A+" },
-          { subject: "Science", marks: 82, grade: "A" }
-        ]
-      },
-      "102": {
-        "2025-06-15": [
-          { subject: "Math", marks: 65, grade: "C" },
-          { subject: "Science", marks: 72, grade: "B" }
-        ]
+    function getResults() {
+      const examCode = document.getElementById('examCode').value;
+      const rollNo = document.getElementById('rollNo').value;
+      const examDate = document.getElementById('examDate').value;
+
+      if (!rollNo) {
+        alert("Please enter a roll number.");
+        return;
       }
-    };
 
-    document.getElementById("examForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+      // Simulated result data (replace with actual API or DB query)
+      const studentResults = [
+        { name: "John Doe", roll: "12345", subject: "Math", score: 85 },
+        { name: "Jane Smith", roll: "12345", subject: "Science", score: 90 },
+        { name: "John Doe", roll: "12345", subject: "English", score: 78 }
+      ];
 
-      const rollNo = document.getElementById("rollNo").value;
-      const examDate = document.getElementById("examDate").value;
+      let output = `
+        <h3>Results for Roll No: ${rollNo}</h3>
+        <p><strong>Exam Code:</strong> ${examCode}<br>
+        <strong>Exam Date:</strong> ${examDate}</p>
+        <table>
+          <tr><th>Student Name</th><th>Subject</th><th>Score</th></tr>
+      `;
 
-      const results = dummyData[rollNo]?.[examDate];
+      studentResults.forEach(result => {
+        output += `<tr>
+          <td>${result.name}</td>
+          <td>${result.subject}</td>
+          <td>${result.score}</td>
+        </tr>`;
+      });
 
-      const table = document.getElementById("resultsTable");
-      const tbody = table.querySelector("tbody");
-      tbody.innerHTML = "";
+      output += '</table>';
+      document.getElementById('results').innerHTML = output;
+    }
+  </script>
 
-      if (results) {
-        results.forEach(r => {
-          const row = document.createElement("tr");
-          row.innerHTML = `<td>${r.subject}</td><td>${r.marks}</td><td>${r.grade}</td>`;
-          tbody.appendChild(row);
+</body>
+</html>
