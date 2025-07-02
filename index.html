@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Results Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            width: 400px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>View Students' Results</h2>
+    <form id="resultsForm">
+        <label for="examCode">Exam Code:</label>
+        <input type="text" id="examCode" name="examCode" required>
+
+        <label for="examDate">Exam Date:</label>
+        <input type="date" id="examDate" name="examDate" required>
+
+        <button type="submit">Get Results</button>
+    </form>
+
+    <div class="results" id="resultsTable" style="display:none;">
+        <h3>Results:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Roll No.</th>
+                    <th>Marks</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- Student results will appear here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById("resultsForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        // Example: static data, replace this with dynamic fetch from backend
+        const students = [
+            { name: "Alice", roll: "101", marks: 88, grade: "A" },
+            { name: "Bob", roll: "102", marks: 76, grade: "B+" },
+            { name: "Charlie", roll: "103", marks: 92, grade: "A+" }
+        ];
+
+        const resultsBody = document.getElementById("resultsBody");
+        resultsBody.innerHTML = "";
+
+        students.forEach(student => {
+            const row = `<tr>
+                <td>${student.name}</td>
+                <td>${student.roll}</td>
+                <td>${student.marks}</td>
+                <td>${student.grade}</td>
+            </tr>`;
+            resultsBody.innerHTML += row;
+        });
+
+        document.getElementById("resultsTable").style.display = "block";
+    });
+</script>
+
+</body>
+</html>
