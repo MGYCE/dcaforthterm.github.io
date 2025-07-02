@@ -1,89 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Student Results</title>
+  <meta charset="UTF-8">
+  <title>Student Exam Result</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 40px;
     }
-    .form-section {
-      margin-bottom: 20px;
+    label, select, input {
+      display: block;
+      margin: 10px 0;
     }
-    table, th, td {
-      border: 1px solid #999;
-      border-collapse: collapse;
-      padding: 8px;
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h2>Get Student Exam Results</h2>
+  <h2>Check Student Exam Result</h2>
 
-  <div class="form-section">
-    <label for="examCode">Select Exam Code:</label>
-    <select id="examCode">
-      <option value="EXAM101">EXAM101</option>
-      <option value="EXAM102">EXAM102</option>
-      <option value="EXAM103">EXAM103</option>
+  <form id="resultForm" onsubmit="getResult(event)">
+    <label for="examCode">Exam Code:</label>
+    <select id="examCode" name="examCode" required>
+      <option value="">--Select Exam Code--</option>
+      <option value="EX101">EX101</option>
+      <option value="EX102">EX102</option>
+      <option value="EX103">EX103</option>
     </select>
-  </div>
 
-  <div class="form-section">
-    <label for="rollNo">Enter Roll Number:</label>
-    <input type="text" id="rollNo" placeholder="e.g. 12345">
-  </div>
+    <label for="rollNo">Roll Number:</label>
+    <input type="text" id="rollNo" name="rollNo" required>
 
-  <div class="form-section">
-    <label for="examDate">Select Exam Date:</label>
-    <select id="examDate">
-      <option value="2025-06-01">June 1, 2025</option>
+    <label for="examDate">Exam Date:</label>
+    <select id="examDate" name="examDate" required>
+      <option value="">--Select Exam Date--</option>
+      <option value="2025-05-10">May 10, 2025</option>
       <option value="2025-06-15">June 15, 2025</option>
       <option value="2025-07-01">July 1, 2025</option>
     </select>
-  </div>
 
-  <button onclick="getResults()">Get Results</button>
+    <button type="submit">Get Result</button>
+  </form>
 
-  <div id="results" style="margin-top: 30px;"></div>
+  <div id="result"></div>
 
   <script>
-    function getResults() {
+    function getResult(event) {
+      event.preventDefault();
+
       const examCode = document.getElementById('examCode').value;
       const rollNo = document.getElementById('rollNo').value;
       const examDate = document.getElementById('examDate').value;
 
-      if (!rollNo) {
-        alert("Please enter a roll number.");
-        return;
-      }
-
-      // Simulated result data (replace with actual API or DB query)
-      const studentResults = [
-        { name: "John Doe", roll: "12345", subject: "Math", score: 85 },
-        { name: "Jane Smith", roll: "12345", subject: "Science", score: 90 },
-        { name: "John Doe", roll: "12345", subject: "English", score: 78 }
-      ];
-
-      let output = `
-        <h3>Results for Roll No: ${rollNo}</h3>
-        <p><strong>Exam Code:</strong> ${examCode}<br>
-        <strong>Exam Date:</strong> ${examDate}</p>
-        <table>
-          <tr><th>Student Name</th><th>Subject</th><th>Score</th></tr>
+      // Simulate fetching result (you can replace this with real API call)
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <h3>Student Result</h3>
+        <p><strong>Exam Code:</strong> ${examCode}</p>
+        <p><strong>Roll Number:</strong> ${rollNo}</p>
+        <p><strong>Exam Date:</strong> ${examDate}</p>
+        <p><strong>Result:</strong> <span style="color: green;">Passed</span></p>
       `;
-
-      studentResults.forEach(result => {
-        output += `<tr>
-          <td>${result.name}</td>
-          <td>${result.subject}</td>
-          <td>${result.score}</td>
-        </tr>`;
-      });
-
-      output += '</table>';
-      document.getElementById('results').innerHTML = output;
     }
   </script>
 
